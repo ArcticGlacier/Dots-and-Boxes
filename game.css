@@ -1,0 +1,133 @@
+body {
+  background-color: 181818;
+  font-family: "Sen", sans-serif;
+}
+
+body button {
+  border: none;
+  font-family: "Sen", sans-serif;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+h2 {
+  color: #d9d9d9;
+  font-weight: 700;
+  text-align: center;
+  font-size: 65px;
+  margin-bottom: 20px;
+}
+
+.restart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.restart button {
+  color: #d9d9d9;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 25px;
+  outline-style: solid;
+  outline-color: transparent;
+  transition: 0.25s;
+  margin: 0px 15px 0px 15px;
+  border-radius: 5px;
+}
+
+.restart button:hover {
+  outline-style: solid;
+  outline-color: #d9d9d9;
+  outline-offset: 10px;
+  outline-width: thin;
+}
+
+#score {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#score button {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  color: black;
+  font-weight: 700;
+  font-size: 17px;
+  margin: 30px 15px 0 15px;
+}
+
+#p1 {
+  background-color: #db92ed;
+}
+
+#p2 {
+  background-color: #9fffee;
+}
+
+#p3 {
+  background-color: #fffb9f;
+}
+
+#gridDots {
+  display: grid;
+  grid-template-columns: repeat(4, 90px) 0px;
+  grid-template-rows: repeat(4, 90px) 0px;
+  justify-content: center;
+  margin: 50px 0 75px 0;
+}
+
+.square {
+  position: relative;
+}
+
+.dot {
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #d9d9d9;
+  position: absolute;
+  margin: 0;
+  margin-left: -5.5px;
+  margin-top: -5px;
+  top: 0;
+  left: 0;
+  z-index: 8;
+}
+
+.line {
+  background-color: transparent;
+}
+
+.top,
+.bottom {
+  cursor: pointer;
+  width: 90px;
+  height: 5px;
+  margin-top: -1.5px;
+}
+
+.left {
+  cursor: pointer;
+  width: 90px;
+  height: 5px;
+  transform-origin: left;
+  rotate: 90deg;
+  margin-top: -7px;
+}
+
+.right {
+  cursor: pointer;
+  width: 90px;
+  height: 5px;
+  transform-origin: right;
+  rotate: -90deg;
+  margin-top: -10px;
+}

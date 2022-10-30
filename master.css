@@ -1,0 +1,88 @@
+body {
+  background-color: 181818;
+  font-family: "Sen", sans-serif;
+}
+
+body button {
+  font-family: "Sen", sans-serif;
+  border: none;
+  outline-style: solid;
+  outline-color: transparent;
+}
+
+.content {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+h2 {
+  color: #d9d9d9;
+  font-weight: 700;
+  text-align: center;
+  font-size: 65px;
+}
+
+.players {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.players button {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  color: black;
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0 15px 62.5px 15px;
+}
+
+#p1 {
+  background-color: #db92ed;
+}
+
+#p2 {
+  background-color: #9fffee;
+}
+
+#p3 {
+  background-color: #fffb9f;
+}
+
+#possiblePlayer3 {
+  background-color: #fffb9f;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: 400;
+  transition: 0.25s;
+}
+
+.startButton,
+.homeButton {
+  display: flex;
+  justify-content: center;
+}
+
+#start,
+#home {
+  background-color: #d9d9d9;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 25px;
+  cursor: pointer;
+  width: 320px;
+  height: 110px;
+  transition: 0.25s;
+}
+
+#start:hover,
+#home:hover,
+#possiblePlayer3:hover {
+  outline-style: solid;
+  outline-width: thin;
+  outline-color: #d9d9d9;
+  outline-offset: 12.5px;
+}
