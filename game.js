@@ -26,7 +26,7 @@ let squares = [
   { ...square },
 ];
 
-let numOfCompletedSquares = 0;
+let completedSquares = 0;
 let currentTurn = 1;
 let p1Score = 0;
 let p2Score = 0;
@@ -127,6 +127,7 @@ function changeTurn() {
 function updateDrawnLines(line) {
   let lineType = line.classList[1];
   let squareNum = line.parentElement.classList[1];
+  let squareNum2 = squareNum;
   let firstSquare = squares[squareNum - 1];
   let secondSquare = squares[squareNum - 1];
 
@@ -154,25 +155,34 @@ function updateDrawnLines(line) {
     squares[squareNum - 1].left = 1;
     squares[squareNum - 2].right = 1;
     secondSquare = squares[squareNum - 2];
+    squareNum2--;
   } else if (lineType == "top") {
     squares[squareNum - 1].top = 1;
     squares[squareNum - 5].bottom = 1;
     secondSquare = squares[squareNum - 5];
+    squareNum2 = squareNum - 4;
   }
-  let boxCompleted = isBoxComplete(firstSquare, secondSquare);
+  let boxCompleted = isBoxComplete(
+    firstSquare,
+    secondSquare,
+    squareNum,
+    squareNum2
+  );
   if (!boxCompleted) {
     changeTurn();
   }
 }
 
 /*Checks if a square has been completed*/
-function isBoxComplete(square1, square2) {
+function isBoxComplete(square1, square2, id1, id2) {
   if (
     square1.top != 0 &&
     square1.left != 0 &&
     square1.right != 0 &&
     square1.bottom != 0
   ) {
+    completedSquares++;
+    colorBox(id1);
     updateScore();
     return true;
   } else if (
@@ -181,6 +191,8 @@ function isBoxComplete(square1, square2) {
     square2.right != 0 &&
     square2.bottom != 0
   ) {
+    completedSquares++;
+    colorBox(id2);
     updateScore();
     return true;
   }
@@ -204,13 +216,16 @@ function updateScore() {
   }
 }
 
+/* Colors corresponding box that has been flled with color of player who filled it*/
 function colorBox(boxId) {
   let box = document.getElementsByClassName(boxId);
+  box[0].style.transition = "0.5s";
+  console.log(boxId);
   if (currentTurn == 1) {
-    box.style.backgroundColor = "#db92ed";
+    box[0].style.backgroundColor = "rgb(219, 146, 237,0.5)";
   } else if (currentTurn == 2) {
-    box.style.backgroundColor = "#9fffee";
+    box[0].style.backgroundColor = "rgb(159, 255, 238,0.5)";
   } else if (currentTurn == 3) {
-    box.style.backgroundColor = "#fffb9f";
+    box[0].style.backgroundColor = "rgb(255, 251, 159,0.5)";
   }
 }
