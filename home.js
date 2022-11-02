@@ -1,5 +1,8 @@
 let numOfPlayers = 2;
 
+let beginBtn = document.getElementById("start");
+beginBtn.value = numOfPlayers;
+
 let player3 = document.getElementById("possiblePlayer3");
 player3.addEventListener("click", addPlayer);
 player3.addEventListener("mouseover", hoverPlayer);
@@ -23,6 +26,8 @@ function changePlayerInnerText(player3) {
 if the player reclicks that same button. */
 function addPlayer() {
   numOfPlayers == 2 ? numOfPlayers++ : numOfPlayers--;
+  beginBtn.value = numOfPlayers;
+
   let player3 = document.getElementById("possiblePlayer3");
   if (numOfPlayers == 3) {
     player3.innerText = "P3";

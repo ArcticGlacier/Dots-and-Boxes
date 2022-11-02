@@ -1,19 +1,23 @@
 let currentURL = window.location.href;
 
+const regEx = /(\d{1})-(\d{1})-(\d{1,2})-(\d{1,2})-(\d{1,2})/g;
+
 let scores;
-
-const regEx = /(\d{1})-(\d{1,2})-(\d{1,2})-(\d{1,2})/g;
-
 scores = currentURL.split("=").pop();
 const matches = [...scores.matchAll(regEx)];
 
-const winner = matches[0][1];
-const p1Score = matches[0][2];
-const p2Score = matches[0][3];
-const p3Score = matches[0][4];
+const numOfPlayers = matches[0][1];
+const winner = matches[0][2];
+const p1Score = matches[0][3];
+const p2Score = matches[0][4];
+const p3Score = matches[0][5];
 
 window.addEventListener("load", declareWinner);
-renderPlayer3();
+
+if (numOfPlayers == 3) {
+  renderPlayer3();
+}
+
 drawScores();
 drawWinnerRing();
 
@@ -43,8 +47,10 @@ function drawScores() {
   let player2 = document.getElementById("p2");
   player2.innerText = p2Score;
 
-  let player3 = document.getElementById("p3");
-  player3.innerText = p3Score;
+  if (numOfPlayers == 3) {
+    let player3 = document.getElementById("p3");
+    player3.innerText = p3Score;
+  }
 }
 
 function renderPlayer3() {
@@ -66,17 +72,17 @@ function drawWinnerRing() {
   if (winner == 4) {
     let player1 = document.getElementById("p1");
     let player2 = document.getElementById("p2");
-    let player3 = document.getElementById("p3");
-
+    let player3;
     drawRing(player1);
     drawRing(player2);
-    drawRing(player3);
-
-    if (p1Score == p2Score && p2Score != p3Score) {
+    if (numOfPlayers == 3 && p1Score == p2Score && p2Score == p3Score) {
+      player3 = document.getElementById("p3");
+      drawRing(player3);
+    } else if (numOfPlayers == 3 && p1Score == p2Score) {
       player3.style.outlineColor = "transparent";
-    } else if (p1Score == p3Score && p3Score != p2Score) {
+    } else if (numOfPlayers == 3 && p1Score == p3Score) {
       player2.style.outlineColor = "transparent";
-    } else if (p2Score == p3Score && p3Score != p1Score) {
+    } else if (numOfPlayers == 3 && p2Score == p3Score) {
       player1.style.outlineColor = "transparent";
     }
   } else {

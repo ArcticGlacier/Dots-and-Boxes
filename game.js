@@ -30,8 +30,19 @@ let p1Score = 0;
 let p2Score = 0;
 let p3Score = 0;
 let winner;
+let numOfPlayers;
 
-window.addEventListener("load", renderPlayer3);
+let currentURL = window.location.href;
+for (let i = 0; i < currentURL.length; i++) {
+  if (currentURL[i] == "=") {
+    numOfPlayers = currentURL[i + 1];
+  }
+}
+
+if (numOfPlayers == 3) {
+  window.addEventListener("load", renderPlayer3);
+}
+
 whoseTurn();
 
 const lines = document.getElementsByClassName("line");
@@ -124,10 +135,12 @@ function removeTurn() {
 /* Changes whose turn it is */
 function changeTurn() {
   removeTurn();
-  currentTurn++;
-  if (currentTurn > 3) {
-    currentTurn = 1;
+  if (numOfPlayers == 3) {
+    currentTurn + 1 > 3 ? (currentTurn = 1) : currentTurn++;
+  } else {
+    (currentTurn + 1) % 2 == 0 ? (currentTurn = 2) : (currentTurn = 1);
   }
+  console.log(currentTurn);
   whoseTurn();
 }
 
@@ -177,7 +190,7 @@ function updateDrawnLines(line) {
   } else {
     if (completedSquares == 16) {
       endGame();
-      window.location.href = `./gameover.html?winner=${winner}-${p1Score}-${p2Score}-${p3Score}`;
+      window.location.href = `./gameover.html?winner=${numOfPlayers}-${winner}-${p1Score}-${p2Score}-${p3Score}`;
     }
   }
 }
@@ -192,7 +205,6 @@ function isBoxComplete(square1, id1, square2, id2) {
     square1.bottom != 0
   ) {
     completedSquares++;
-    console.log("first square colored");
     colorBox(id1);
     updateScore();
     boxComplete = true;
@@ -232,7 +244,6 @@ function updateScore() {
 /* Colors corresponding box that has been flled with color of player who filled it*/
 function colorBox(boxId) {
   let box = document.getElementsByClassName(boxId);
-  console.log(box);
   box[0].style.transition = "0.5s";
   if (currentTurn == 1) {
     box[0].style.backgroundColor = "rgb(219, 146, 237,0.5)";
@@ -253,7 +264,7 @@ function endGame() {
   } else {
     winner = "4";
   }
-  endGameBtn.value = `${winner}-${p1Score}-${p2Score}-${p3Score}`;
+  endGameBtn.value = `${numOfPlayers}-${winner}-${p1Score}-${p2Score}-${p3Score}`;
 }
 
 function restart() {
@@ -266,11 +277,14 @@ function restart() {
 function clearScores() {
   let p1 = document.getElementById("p1");
   let p2 = document.getElementById("p2");
-  let p3 = document.getElementById("p3");
 
   p1.innerText = 0;
   p2.innerText = 0;
-  p3.innerText = 0;
+
+  if (numOfPlayers == 3) {
+    let p3 = document.getElementById("p3");
+    p3.innerText = 0;
+  }
 
   removeTurn();
 
