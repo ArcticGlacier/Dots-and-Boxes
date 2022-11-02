@@ -10,17 +10,20 @@
       rel="stylesheet"
     />
   </head>
-  <body id="gameover">
+  <body>
     <div class="content">
-      <h2 id="win"></h2>
-      <div class="players" id="score">
-        <button disabled id="p1">0</button>
-        <button disabled id="p2">0</button>
+      <h2>DOTS & BOXES</h2>
+      <div class="players">
+        <button disabled id="p1">P1</button>
+        <button disabled id="p2">P2</button>
+        <button id="possiblePlayer3">&plus;</button>
       </div>
-      <div class="homeButton">
-        <a href="index.html"><button id="home">H O M E</button></a>
+      <div class="startButton">
+        <form action="game.html">
+          <button id="start" name="playerNum">B E G I N</button>
+        </form>
       </div>
     </div>
-    <script type="text/javascript" src="gameover.js"></script>
+    <script type="text/javascript" src="index.js"></script>
   </body>
 </html>
