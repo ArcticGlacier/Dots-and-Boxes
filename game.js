@@ -1,5 +1,3 @@
-window.addEventListener("load", renderPlayer3);
-
 let square = {
   top: 0,
   right: 0,
@@ -31,6 +29,9 @@ let currentTurn = 1;
 let p1Score = 0;
 let p2Score = 0;
 let p3Score = 0;
+let winner;
+
+window.addEventListener("load", renderPlayer3);
 whoseTurn();
 
 const lines = document.getElementsByClassName("line");
@@ -43,13 +44,20 @@ for (let i = 0; i < lines.length; i++) {
 for (let i = 0; i < lines.length; i++) {
   lines[i].addEventListener("click", drawLine);
 }
+
+const endGameBtn = document.getElementById("end");
+endGameBtn.addEventListener("click", endGame);
+
+const restartBtn = document.getElementById("restart");
+restartBtn.addEventListener("click", restart);
+
 /* If three players have been selected, render third player in either game or gameover screen*/
 function renderPlayer3() {
   let p3 = document.createElement("button");
   let scoreDiv = document.getElementById("score");
   p3.disabled = true;
   p3.id = "p3";
-  p3.innerText = "0";
+  p3.innerText = 0;
   scoreDiv.appendChild(p3);
 
   p3.style.outlineStyle = "solid";
@@ -126,10 +134,12 @@ function changeTurn() {
 /* Updates which square's sides were filled based on line drawn */
 function updateDrawnLines(line) {
   let lineType = line.classList[1];
+
   let squareNum = line.parentElement.classList[1];
-  let squareNum2 = squareNum;
   let firstSquare = squares[squareNum - 1];
-  let secondSquare = squares[squareNum - 1];
+
+  let squareNum2;
+  let secondSquare;
 
   if (
     lineType == "top" &&
@@ -139,13 +149,7 @@ function updateDrawnLines(line) {
       squareNum == "4")
   ) {
     squares[squareNum - 1].top = 1;
-  } else if (
-    lineType == "left" &&
-    (squareNum == "1" ||
-      squareNum == "5" ||
-      squareNum == "9" ||
-      squareNum == "13")
-  ) {
+  } else if (lineType == "left" && squareNum % 4 == 1) {
     squares[squareNum - 1].left = 1;
   } else if (lineType == "bottom") {
     squares[squareNum - 1].bottom = 1;
@@ -154,27 +158,33 @@ function updateDrawnLines(line) {
   } else if (lineType == "left") {
     squares[squareNum - 1].left = 1;
     squares[squareNum - 2].right = 1;
-    secondSquare = squares[squareNum - 2];
-    squareNum2--;
+    secondSquare = squares[squareNum - 2]; // get the square to the left of current square
+    squareNum2 = squareNum - 1;
   } else if (lineType == "top") {
     squares[squareNum - 1].top = 1;
     squares[squareNum - 5].bottom = 1;
-    secondSquare = squares[squareNum - 5];
+    secondSquare = squares[squareNum - 5]; // get square above current square
     squareNum2 = squareNum - 4;
   }
   let boxCompleted = isBoxComplete(
     firstSquare,
-    secondSquare,
     squareNum,
+    secondSquare,
     squareNum2
   );
   if (!boxCompleted) {
     changeTurn();
+  } else {
+    if (completedSquares == 16) {
+      endGame();
+      window.location.href = `./gameover.html?winner=${winner}-${p1Score}-${p2Score}-${p3Score}`;
+    }
   }
 }
 
 /*Checks if a square has been completed*/
-function isBoxComplete(square1, square2, id1, id2) {
+function isBoxComplete(square1, id1, square2, id2) {
+  let boxComplete = false;
   if (
     square1.top != 0 &&
     square1.left != 0 &&
@@ -182,10 +192,13 @@ function isBoxComplete(square1, square2, id1, id2) {
     square1.bottom != 0
   ) {
     completedSquares++;
+    console.log("first square colored");
     colorBox(id1);
     updateScore();
-    return true;
-  } else if (
+    boxComplete = true;
+  }
+  if (
+    square2 != null &&
     square2.top != 0 &&
     square2.left != 0 &&
     square2.right != 0 &&
@@ -194,9 +207,9 @@ function isBoxComplete(square1, square2, id1, id2) {
     completedSquares++;
     colorBox(id2);
     updateScore();
-    return true;
+    boxComplete = true;
   }
-  return false;
+  return boxComplete;
 }
 
 /* Updates the players score if they completed a box*/
@@ -219,8 +232,8 @@ function updateScore() {
 /* Colors corresponding box that has been flled with color of player who filled it*/
 function colorBox(boxId) {
   let box = document.getElementsByClassName(boxId);
+  console.log(box);
   box[0].style.transition = "0.5s";
-  console.log(boxId);
   if (currentTurn == 1) {
     box[0].style.backgroundColor = "rgb(219, 146, 237,0.5)";
   } else if (currentTurn == 2) {
@@ -228,4 +241,85 @@ function colorBox(boxId) {
   } else if (currentTurn == 3) {
     box[0].style.backgroundColor = "rgb(255, 251, 159,0.5)";
   }
+}
+
+function endGame() {
+  if (p1Score > p2Score && p1Score > p3Score) {
+    winner = "1";
+  } else if (p2Score > p1Score && p2Score > p3Score) {
+    winner = "2";
+  } else if (p3Score > p1Score && p3Score > p2Score) {
+    winner = "3";
+  } else {
+    winner = "4";
+  }
+  endGameBtn.value = `${winner}-${p1Score}-${p2Score}-${p3Score}`;
+}
+
+function restart() {
+  clearScores();
+  clearLines();
+  clearBoxes();
+  resetSquares();
+}
+
+function clearScores() {
+  let p1 = document.getElementById("p1");
+  let p2 = document.getElementById("p2");
+  let p3 = document.getElementById("p3");
+
+  p1.innerText = 0;
+  p2.innerText = 0;
+  p3.innerText = 0;
+
+  removeTurn();
+
+  currentTurn = 1;
+  p1Score = 0;
+  p2Score = 0;
+  p3Score = 0;
+
+  whoseTurn();
+}
+
+function clearLines() {
+  let lines = document.getElementsByClassName("line");
+  for (let i = 0; i < lines.length; i++) {
+    lines[i].style.backgroundColor = "transparent";
+    lines[i].style.transition = "0.5s";
+    lines[i].addEventListener("click", drawLine);
+    lines[i].addEventListener("mouseover", hoverLine);
+    lines[i].addEventListener("mouseleave", stopHoveringLine);
+  }
+}
+
+function clearBoxes() {
+  for (let i = 0; i < 16; i++) {
+    let box = document.getElementsByClassName(i + 1);
+    box[0].style.backgroundColor = "transparent";
+    box[0].style.transition = "0.5s";
+  }
+}
+
+function resetSquares() {
+  completedSquares = 0;
+
+  squares = [
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+    { ...square },
+  ];
 }
