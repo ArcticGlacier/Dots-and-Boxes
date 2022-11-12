@@ -104,13 +104,13 @@ form {
   margin-top: -5px;
   top: 0;
   left: 0;
-  z-index: 6;
+  z-index: 8;
   position: relative;
 }
 
 .line {
   background-color: transparent;
-  z-index: 8;
+  z-index: 6;
   width: 90px;
   height: 5px;
   position: relative;
@@ -119,7 +119,7 @@ form {
 .top,
 .bottom {
   cursor: pointer;
-  margin-top: -1.5px;
+  margin-top: -8.5px;
 }
 
 .left {
