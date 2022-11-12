@@ -105,25 +105,25 @@ form {
   top: 0;
   left: 0;
   z-index: 6;
+  position: relative;
 }
 
 .line {
   background-color: transparent;
   z-index: 8;
+  width: 90px;
+  height: 5px;
+  position: relative;
 }
 
 .top,
 .bottom {
   cursor: pointer;
-  width: 90px;
-  height: 5px;
   margin-top: -1.5px;
 }
 
 .left {
   cursor: pointer;
-  width: 90px;
-  height: 5px;
   transform-origin: left;
   rotate: 90deg;
   margin-top: -7px;
@@ -131,8 +131,6 @@ form {
 
 .right {
   cursor: pointer;
-  width: 90px;
-  height: 5px;
   transform-origin: right;
   rotate: -90deg;
   margin-top: -10px;
