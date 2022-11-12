@@ -1,5 +1,7 @@
 let currentURL = window.location.href;
 
+/*Parse the URL for information about the number of players,
+the winner, and each player's score */
 const regEx = /(\d{1})-(\d{1})-(\d{1,2})-(\d{1,2})-(\d{1,2})/g;
 
 let scores;
@@ -21,6 +23,7 @@ if (numOfPlayers == 3) {
 drawScores();
 drawWinnerRing();
 
+/*Display winner based off of score. Tie games can occur.*/
 function declareWinner() {
   let heading;
   if (winner != 4) {
@@ -40,6 +43,7 @@ function declareWinner() {
   parent.appendChild(heading);
 }
 
+/*Draw each player's score in their respective bubble */
 function drawScores() {
   let player1 = document.getElementById("p1");
   player1.innerText = p1Score;
@@ -53,6 +57,7 @@ function drawScores() {
   }
 }
 
+/*Render player 3 if there are three players selected */
 function renderPlayer3() {
   let p3 = document.createElement("button");
   let scoreDiv = document.getElementById("score");
@@ -67,6 +72,7 @@ function renderPlayer3() {
   p3.style.outlineOffset = "12.5px";
 }
 
+/*Draw a ring around the winner's bubble */
 function drawWinnerRing() {
   // If there is a draw between 2 or more players then draw ring around those dots
   if (winner == 4) {
@@ -92,6 +98,7 @@ function drawWinnerRing() {
   }
 }
 
+/*Draw a ring around the given player */
 function drawRing(player) {
   player.style.outlineStyle = "solid";
   player.style.outlineWidth = "thin";

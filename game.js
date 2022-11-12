@@ -1,3 +1,5 @@
+/*Indicates whether or not a side of a square has been filled with a line or not
+0 = vacant, and 1 = line drawn */
 let square = {
   top: 0,
   right: 0,
@@ -32,6 +34,7 @@ let p3Score = 0;
 let winner;
 let numOfPlayers;
 
+/*Parse number of players from url */
 let currentURL = window.location.href;
 for (let i = 0; i < currentURL.length; i++) {
   if (currentURL[i] == "=") {
@@ -45,6 +48,7 @@ if (numOfPlayers == 3) {
 
 whoseTurn();
 
+/*Adding event listeners */
 const lines = document.getElementsByClassName("line");
 
 for (let i = 0; i < lines.length; i++) {
@@ -141,7 +145,6 @@ function changeTurn() {
   } else {
     (currentTurn + 1) % 2 == 0 ? (currentTurn = 2) : (currentTurn = 1);
   }
-  console.log(currentTurn);
   whoseTurn();
 }
 
@@ -196,7 +199,8 @@ function updateDrawnLines(line) {
   }
 }
 
-/*Checks if a square has been completed*/
+/*Checks if a square has been completed. Sometimes a single line can complete 2 squares.
+Colors the square if its been completed based on the player's color.*/
 function isBoxComplete(square1, id1, square2, id2) {
   let boxComplete = false;
   if (
@@ -255,6 +259,7 @@ function colorBox(boxId) {
   }
 }
 
+/*Calculates winner if the game ends */
 function endGame() {
   if (p1Score > p2Score && p1Score > p3Score) {
     winner = "1";
@@ -268,6 +273,7 @@ function endGame() {
   endGameBtn.value = `${numOfPlayers}-${winner}-${p1Score}-${p2Score}-${p3Score}`;
 }
 
+/*Reset all variables and clear the board if the restart button has been clicked */
 function restart() {
   clearScores();
   clearLines();
@@ -275,6 +281,7 @@ function restart() {
   resetSquares();
 }
 
+/*Reset scores to 0 */
 function clearScores() {
   let p1 = document.getElementById("p1");
   let p2 = document.getElementById("p2");
@@ -297,6 +304,7 @@ function clearScores() {
   whoseTurn();
 }
 
+/*Erase lines on the board */
 function clearLines() {
   let lines = document.getElementsByClassName("line");
   for (let i = 0; i < lines.length; i++) {
@@ -308,6 +316,7 @@ function clearLines() {
   }
 }
 
+/*Erase filled in boxes on the board */
 function clearBoxes() {
   for (let i = 0; i < 16; i++) {
     let box = document.getElementsByClassName(i + 1);
@@ -316,6 +325,7 @@ function clearBoxes() {
   }
 }
 
+/*Resets filled line values for each square */
 function resetSquares() {
   completedSquares = 0;
 
