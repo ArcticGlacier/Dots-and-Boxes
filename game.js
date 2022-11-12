@@ -101,6 +101,7 @@ function hoverLine(event) {
   event.currentTarget.style.transition = "0.25s";
   event.currentTarget.style.height = "5px";
   event.currentTarget.style.backgroundColor = "#5A5A5A";
+  event.currentTarget.style.cursor = "pointer";
 }
 
 /* Greyed out line that appears when hovering goes away when the user moves mouse*/
